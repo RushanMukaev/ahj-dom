@@ -1,0 +1,21 @@
+body {
+    box-sizing: border-box;
+}
+.game {
+    display: grid;
+    margin:auto;
+    width:500px;
+    height:500px;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(4,1fr);
+}
+.cell {
+    border: 1px solid black; 
+    border-radius: 30%; 
+    background-color: grey; 
+    text-align: center; 
+    
+}
+.goblin {
+    background-image: url(../img/goblin.png);
+}
