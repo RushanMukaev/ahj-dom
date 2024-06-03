@@ -1,91 +1,104 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
-
-/***/ 930:
-/***/ (() => {
-
-function randomSellActive() {
-  const sells = Array.from(document.querySelectorAll(".cell"));
-  if (document.querySelector(".goblin")) {
-    document.querySelector(".goblin").classList.remove("goblin");
-  }
-  let randomIndex = Math.floor(Math.random() * sells.length);
-  sells[randomIndex].classList.add("goblin");
-}
-document.addEventListener("DOMContentLoaded", () => {
-  setInterval(() => randomSellActive(), 2000);
-});
-
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/************************************************************************/
+/******/ 	"use strict";
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-/* harmony import */ var _js_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(930);
-/* harmony import */ var _js_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_js_app__WEBPACK_IMPORTED_MODULE_0__);
+
+;// CONCATENATED MODULE: ./src/js/app.js
+class Game {
+  constructor() {
+    this.score = 0;
+    this.viewGoblins = 0;
+    this.sells = [];
+    this.randomSellActive = this.randomSellActive.bind(this);
+    this.gameStart = document.querySelector(".gameStart");
+    this.gameStart.addEventListener("click", e => {
+      e.preventDefault();
+      this.newGame();
+    });
+    document.addEventListener("click", e => {
+      const target = e.target;
+      if (target.classList.contains("goblin")) {
+        target.classList.remove("goblin");
+        this.score++;
+        this.renderScore();
+      }
+    });
+  }
+  newGame() {
+    this.score = 0;
+    this.viewGoblins = 0;
+    this.sells = [];
+    const game = document.querySelector(".game");
+    const gameControl = document.querySelector(".game-control");
+    gameControl.classList.add("game-control-close");
+    const renderCells = `
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>`;
+    game.innerHTML = renderCells;
+    this.sells = Array.from(document.querySelectorAll(".cell"));
+    this.renderScore();
+    this.randomSellActive();
+  }
+  randomSellActive() {
+    if (this.viewGoblins - this.score >= 5) {
+      clearTimeout(this._timeout);
+      this.gameOver();
+      return;
+    }
+    if (document.querySelector(".goblin")) {
+      document.querySelector(".goblin").classList.remove("goblin");
+    }
+    let randomIndex = Math.floor(Math.random() * this.sells.length);
+    this.sells[randomIndex].classList.add("goblin");
+    this.viewGoblins++;
+    this._timeout = setTimeout(() => this.randomSellActive(), 1000);
+  }
+  renderScore() {
+    const score = document.querySelector(".score");
+    score.textContent = `Счет: ${this.score}`;
+    score.classList.remove("score-close");
+  }
+  gameOver() {
+    const gameInfo = document.querySelector(".gameInfo");
+    gameInfo.innerHTML = `Игра окончена! Ваш счет: ${this.score}`;
+    const gameControl = document.querySelector(".game-control");
+    gameControl.classList.remove("game-control-close");
+    const game = document.querySelector(".game");
+    game.innerHTML = "";
+    const gameScore = document.querySelector(".score");
+    gameScore.classList.add("score-close");
+  }
+}
+const game = new Game();
+;// CONCATENATED MODULE: ./src/cursor/cursor.js
+
+const cursor = document.querySelector(".cursor");
+const mouseMove = function (e) {
+  let x = e.clientX;
+  let y = e.clientY;
+  cursor.style.left = x - 20 + "px";
+  cursor.style.top = y - 20 + "px";
+};
+document.addEventListener("mousemove", mouseMove);
+;// CONCATENATED MODULE: ./src/index.js
+
 
 
 
 // TODO: write your code in app.js
-})();
-
+``;
 /******/ })()
 ;
