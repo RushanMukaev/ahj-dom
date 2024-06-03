@@ -1,0 +1,9 @@
+.cursor {
+    height: 120px;
+    width: 120px;     pointer-events: none;
+    position: absolute;
+    background-image: url(../img/cursor.png);
+    background-size: 120px;
+    box-sizing: border-box;
+    transform: scaleX(-1);
+}

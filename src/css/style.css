@@ -1,7 +1,10 @@
 body {
     box-sizing: border-box;
+    cursor: none;
+    background-color: bisque;
 }
 .game {
+    font-size: 30px;
     display: grid;
     margin:auto;
     width:500px;
@@ -12,10 +15,38 @@ body {
 .cell {
     border: 1px solid black; 
     border-radius: 30%; 
-    background-color: grey; 
+    background-color: #818c9c; 
     text-align: center; 
     
 }
 .goblin {
     background-image: url(../img/goblin.png);
+}
+
+.score {
+    font-size: 40px;
+    text-align: center;
+}
+.score-close {
+    display: none;
+}
+
+.gameInfo {
+    font-size: 40px;
+    text-align: center;
+}
+
+.gameStart {
+    font-size: 60px;
+    margin: 0 auto;
+    display: block;
+    cursor: none;
+    
+}
+
+.game-control {
+    color: black;
+}
+.game-control-close {
+    display: none;
 }
